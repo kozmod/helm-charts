@@ -2,6 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: debug-sleep
+  {{- if .Values.clusterLabels }}
+  labels: {{- toYaml .Values.clusterLabels | nindent 4}}
+  {{- end }}
+  {{- if .Values.clusterAnnotations }}
+  annotations: {{- toYaml .Values.clusterAnnotations | nindent 4}}
+  {{- end }}
 spec:
   containers:
     - name: test
