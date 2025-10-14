@@ -43,7 +43,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: kubevirt-custom-crd-0-1-0
+  name: kubevirt-custom-crd-0-2-0
 #  namespace: kcm-system
   namespace: k0rdent-ssh
   annotations:
@@ -52,7 +52,7 @@ spec:
   helm:
     chartSpec:
       chart: kubevirt-custom-crd
-      version: 0.1.0
+      version: 0.2.0
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
