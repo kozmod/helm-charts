@@ -34,7 +34,7 @@ jobs:
           name: openstack-standalone-cp-nocni
           repository: ${{ github.repository }}
           tag: ${{ steps.chart_version.outputs.version }}
-          path: .
+          path: ./templates/cluster/kubevirt-custom-crd
           registry: ghcr.io
           registry_username: ${{ github.actor }}
           registry_password: ${{ secrets.GITHUB_TOKEN }}
