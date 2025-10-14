@@ -1,0 +1,19 @@
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterTemplate
+metadata:
+  name: kubevirt-custom-crd-0-1-0
+  namespace: project-ottowa
+spec:
+  helm:
+    chartSpec:
+      chart: kubevirt-custom-crd
+      version: 0.1.0
+      interval: 10m
+      chartSource:
+        deploymentType: Remote
+        path: ./templates/cluster
+        remoteSourceSpec:
+          git:
+            url: https://github.com/kozmod/helm-charts
+            ref:
+              branch: main

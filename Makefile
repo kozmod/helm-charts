@@ -7,6 +7,14 @@ tmp:
 	@(echo "-----")
 	helm show values oci://ghcr.io/pbasov/oot/charts/kubevirt-standalone-cp --version 1.4.0
 
+
+.PHONY: git.rm
+git.rm:
+#	git rm -r --cached ./$(dir)
+#	val=$$(echo $(dir)| tr -d ' ') && git rm -r --cached $$(echo ./$(dir) | tr -d ' ')
+#	val=$$(echo ./$(dir)| tr -d ' ') && echo $$val
+
+
 .PHONY: tags.list
 tags.list: ## List all exists tags (git)
 	@(git tag | sort -rt "." -k1,1n -k2,2n -k3,3n | tail -r)
