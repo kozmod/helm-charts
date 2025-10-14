@@ -24,7 +24,7 @@ jobs:
       - name: Get chart version
         id: chart_version
         run: |
-          VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          VERSION=$(grep '^version:' ./templates/cluster/kubevirt-custom-crd/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Chart version: $VERSION"
 
