@@ -22,43 +22,6 @@ helm show values oci://ghcr.io/pbasov/oot/charts/kubevirt-standalone-cp --versio
 helm show chart oci://ghcr.io/kozmod/helm-charts/kubevirt-custom-crd --version 0.1.0
 
 ```yaml
-cat > ct-helm.yaml << EOF
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  labels:
-    k0rdent.mirantis.com/managed: "true"
-  name: kozmod-oot-repo
-#  namespace: kcm-system
-  namespace: k0rdent-ssh
-spec:
-  interval: 10m0s
-  provider: generic
-  type: oci
-  url: oci://ghcr.io/kozmod/helm-charts
-status: {}
-
----
-apiVersion: k0rdent.mirantis.com/v1beta1
-kind: ClusterTemplate
-metadata:
-  name: kubevirt-custom-crd-0-4-0
-#  namespace: kcm-system
-  namespace: k0rdent-ssh
-  annotations:
-    helm.sh/resource-policy: keep
-spec:
-  helm:
-    chartSpec:
-      chart: kubevirt-custom-crd
-      version: 0.4.0
-      interval: 10m0s
-      sourceRef:
-        kind: HelmRepository
-        name: kozmod-oot-repo
-EOF
-
 ---
 
   cat << EOF | kubectl apply -f -
@@ -114,7 +77,7 @@ metadata:
   name: k0rdent-ssh-clusterdeployment1
   namespace: k0rdent-ssh
 spec:
-  template: kubevirt-custom-crd-0-4-0 # name of the clustertemplate
+  template: kubevirt-custom-crd-0-5-0 # name of the clustertemplate
   credential: k0rdent-ssh-cred
   propagateCredentials: false
   dryRun: false
@@ -130,6 +93,44 @@ spec:
       - address: 10.224.158.116
         user: root # The user must have root permissions 
         port: 22
+EOF
+
+---
+
+cat > ct-helm.yaml << EOF
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  labels:
+    k0rdent.mirantis.com/managed: "true"
+  name: kozmod-oot-repo
+  #  namespace: kcm-system
+  namespace: k0rdent-ssh
+spec:
+  interval: 10m0s
+  provider: generic
+  type: oci
+  url: oci://ghcr.io/kozmod/helm-charts
+status: {}
+
+---
+apiVersion: k0rdent.mirantis.com/v1beta1
+kind: ClusterTemplate
+metadata:
+  name: kubevirt-custom-crd-0-5-0
+  #  namespace: kcm-system
+  namespace: k0rdent-ssh
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  helm:
+    chartSpec:
+      chart: kubevirt-custom-crd
+      version: 0.5.0
+      interval: 10m0s
+      sourceRef:
+        kind: HelmRepository
+        name: kozmod-oot-repo
 EOF
 
   kubectl apply -f ct-helm.yaml
