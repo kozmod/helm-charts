@@ -104,7 +104,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: custom-remote-cluster-0-4-0
+  name: custom-remote-cluster-0-5-0
   #  namespace: kcm-system
   namespace: k0rdent-ssh
   annotations:
@@ -113,7 +113,7 @@ spec:
   helm:
     chartSpec:
       chart: custom-remote-cluster
-      version: 0.4.0
+      version: 0.5.0
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
