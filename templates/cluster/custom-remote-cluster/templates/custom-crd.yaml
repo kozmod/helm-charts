@@ -36,18 +36,18 @@ spec:
       - ccrd
 
 ---
-apiVersion: "example.com/v1"
-kind: CustomCrd
-metadata:
-  name: test-custom-cr
-  {{- if .Values.clusterLabels }}
-  labels: {{- toYaml .Values.clusterLabels | nindent 4}}
-  {{- end }}
-  {{- if .Values.clusterAnnotations }}
-  annotations: {{- toYaml .Values.clusterAnnotations | nindent 4}}
-  {{- end }}
-spec:
-  value: "XXX"
+{{/*apiVersion: "example.com/v1"*/}}
+{{/*kind: CustomCrd*/}}
+{{/*metadata:*/}}
+{{/*  name: test-custom-cr*/}}
+{{/*  {{- if .Values.clusterLabels }}*/}}
+{{/*  labels: {{- toYaml .Values.clusterLabels | nindent 4}}*/}}
+{{/*  {{- end }}*/}}
+{{/*  {{- if .Values.clusterAnnotations }}*/}}
+{{/*  annotations: {{- toYaml .Values.clusterAnnotations | nindent 4}}*/}}
+{{/*  {{- end }}*/}}
+{{/*spec:*/}}
+{{/*  value: "XXX"*/}}
 
 {{/*apiVersion: "example.com/v1"*/}}
 {{/*kind: CustomCrd*/}}
