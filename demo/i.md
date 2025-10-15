@@ -77,7 +77,7 @@ metadata:
   name: k0rdent-ssh-clusterdeployment1
   namespace: k0rdent-ssh
 spec:
-  template: custom-remote-cluster-0-1-0 # name of the clustertemplate
+  template: custom-remote-cluster-0-2-0 # name of the clustertemplate
   credential: k0rdent-ssh-cred
   propagateCredentials: false
   dryRun: false
@@ -117,7 +117,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: custom-remote-cluster-0-1-0
+  name: custom-remote-cluster-0-2-0
   #  namespace: kcm-system
   namespace: k0rdent-ssh
   annotations:
@@ -126,7 +126,7 @@ spec:
   helm:
     chartSpec:
       chart: custom-remote-cluster
-      version: 0.5.0
+      version: 0.2.0
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
