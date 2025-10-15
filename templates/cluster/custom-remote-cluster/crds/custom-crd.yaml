@@ -3,6 +3,9 @@ kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
   name: customcrds.example.com
+  annotations:
+    "helm.sh/hook": crd-install
+    "helm.sh/hook-weight": "-5"
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: example.com
@@ -34,26 +37,3 @@ spec:
     # shortNames allow shorter string to match your resource on the CLI
     shortNames:
       - ccrd
-
----
-apiVersion: "example.com/v1"
-kind: CustomCrd
-metadata:
-  name: test-custom-cr
-  {{- if .Values.clusterLabels }}
-  labels: {{- toYaml .Values.clusterLabels | nindent 4}}
-  {{- end }}
-  {{- if .Values.clusterAnnotations }}
-  annotations: {{- toYaml .Values.clusterAnnotations | nindent 4}}
-  {{- end }}
-  namespace: {{ .Release.Namespace }}
-spec:
-  value: "Hello from my custom resource ({{ .Release.Namespace }}, {{ include "cluster.name" . }})! "
-
-{{/*apiVersion: "example.com/v1"*/}}
-{{/*kind: CustomCrd*/}}
-{{/*metadata:*/}}
-{{/*  name: test-cr*/}}
-{{/*  namespace: k0rdent-ssh*/}}
-{{/*spec:*/}}
-{{/*  value: "XXX"*/}}
