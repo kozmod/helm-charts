@@ -24,17 +24,17 @@ jobs:
       - name: Get chart version
         id: chart_version
         run: |
-          VERSION=$(grep '^version:' ./templates/cluster/kubevirt-custom-crd/Chart.yaml | awk '{print $2}')
+          VERSION=$(grep '^version:' ./templates/cluster/custom-remote-cluster/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Chart version: $VERSION"
 
       - name: Chart | Push
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
-          name: kubevirt-custom-crd
+          name: custom-remote-cluster
           repository: ${{ github.repository }}
           tag: ${{ steps.chart_version.outputs.version }}
-          path: ./templates/cluster/kubevirt-custom-crd
+          path: ./templates/cluster/custom-remote-cluster
           registry: ghcr.io
           registry_username: ${{ github.actor }}
           registry_password: ${{ secrets.GITHUB_TOKEN }}

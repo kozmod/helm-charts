@@ -17,7 +17,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: kubevirt-custom-crd-0-2-0
+  name: custom-remote-cluster-0-2-0
   namespace: kcm-system
   annotations:
     helm.sh/resource-policy: keep

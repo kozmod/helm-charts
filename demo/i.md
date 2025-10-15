@@ -19,7 +19,7 @@ helm show chart oci://ghcr.io/pbasov/oot/charts/kubevirt-standalone-cp --version
 helm show all oci://ghcr.io/pbasov/oot/charts/kubevirt-standalone-cp --version 1.4.0
 helm show values oci://ghcr.io/pbasov/oot/charts/kubevirt-standalone-cp --version 1.4.0
 
-helm show chart oci://ghcr.io/kozmod/helm-charts/kubevirt-custom-crd --version 0.1.0
+helm show chart oci://ghcr.io/kozmod/helm-charts/kcustom-remote-cluster --version 0.1.0
 
 ```yaml
 ---
@@ -77,7 +77,7 @@ metadata:
   name: k0rdent-ssh-clusterdeployment1
   namespace: k0rdent-ssh
 spec:
-  template: kubevirt-custom-crd-0-5-0 # name of the clustertemplate
+  template: custom-remote-cluster-0-1-0 # name of the clustertemplate
   credential: k0rdent-ssh-cred
   propagateCredentials: false
   dryRun: false
@@ -117,7 +117,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: kubevirt-custom-crd-0-5-0
+  name: custom-remote-cluster-0-1-0
   #  namespace: kcm-system
   namespace: k0rdent-ssh
   annotations:
@@ -125,7 +125,7 @@ metadata:
 spec:
   helm:
     chartSpec:
-      chart: kubevirt-custom-crd
+      chart: custom-remote-cluster
       version: 0.5.0
       interval: 10m0s
       sourceRef:
