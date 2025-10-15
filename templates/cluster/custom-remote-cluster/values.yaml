@@ -1,5 +1,6 @@
 # Cluster parameters
 controlPlaneNumber: 1 # @schema description: The number of the control plane pods; type: number; minimum: 1
+workersNumber: 1
 
 clusterLabels: {} # @schema description: Labels to apply to the cluster; type: object; additionalProperties: true
 clusterAnnotations: {} # @schema description: Annotations to apply to the cluster; type: object; additionalProperties: true

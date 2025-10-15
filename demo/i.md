@@ -64,7 +64,7 @@ metadata:
   name: k0rdent-ssh-clusterdeployment1
   namespace: k0rdent-ssh
 spec:
-  template: custom-remote-cluster-0-2-0 # name of the clustertemplate
+  template: custom-remote-cluster-0-3-0 # name of the clustertemplate
   credential: k0rdent-ssh-cred
   propagateCredentials: false
   dryRun: false
@@ -104,7 +104,7 @@ status: {}
 apiVersion: k0rdent.mirantis.com/v1beta1
 kind: ClusterTemplate
 metadata:
-  name: custom-remote-cluster-0-2-0
+  name: custom-remote-cluster-0-3-0
   #  namespace: kcm-system
   namespace: k0rdent-ssh
   annotations:
@@ -113,7 +113,7 @@ spec:
   helm:
     chartSpec:
       chart: custom-remote-cluster
-      version: 0.2.0
+      version: 0.3.0
       interval: 10m0s
       sourceRef:
         kind: HelmRepository
@@ -123,6 +123,8 @@ EOF
   kubectl apply -f ct-helm.yaml
   kubectl apply -f remote-ssh-key-secret.yaml -f remote-cred.yaml -f remote-ssh-key-resource-template.yaml
   kubectl apply -f my-remote-clusterdeployment1.yaml
+
+  kubectl -n k0rdent-ssh get secret k0rdent-ssh-clusterdeployment1-kubeconfig -o jsonpath='{.data.value}' | base64 -d > child.conf
 
 
   kubectl delete -f my-remote-clusterdeployment1.yaml
