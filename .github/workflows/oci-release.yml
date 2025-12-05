@@ -21,14 +21,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get chart version
+      - name: Get chart version (custom-remote-cluster)
         id: chart_version
         run: |
           VERSION=$(grep '^version:' ./templates/cluster/custom-remote-cluster/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Chart version: $VERSION"
+          echo "Chart version (custom-remote-cluster): $VERSION"
 
-      - name: Chart | Push
+      - name: Chart | Push (custom-remote-cluster)
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
           name: custom-remote-cluster
@@ -39,3 +39,24 @@ jobs:
           registry_username: ${{ github.actor }}
           registry_password: ${{ secrets.GITHUB_TOKEN }}
           update_dependencies: 'true'
+
+      - name: Get chart version (kubevirt-standalone-cp-gpu)
+        id: chart_version
+        run: |
+          VERSION=$(grep '^version:' ./templates/cluster/kubevirt-standalone-cp-gpu/Chart.yaml | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Chart version (kubevirt-standalone-cp-gpu): $VERSION"
+
+      - name: Chart | Push (kubevirt-standalone-cp-gpu)
+        uses: appany/helm-oci-chart-releaser@v0.4.2
+        with:
+          name: kubevirt-standalone-cp-gpu
+          repository: ${{ github.repository }}
+          tag: ${{ steps.chart_version.outputs.version }}
+          path: ./templates/cluster/kubevirt-standalone-cp-gpu
+          registry: ghcr.io
+          registry_username: ${{ github.actor }}
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          update_dependencies: 'true'
+
+
