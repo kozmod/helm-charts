@@ -31,7 +31,7 @@ jobs:
       - name: Chart | Push (custom-remote-cluster)
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
-          name: custom-remote-cluster
+          name: chart_version_custom-remote-cluster
           repository: ${{ github.repository }}
           tag: ${{ steps.chart_version.outputs.version }}
           path: ./templates/cluster/custom-remote-cluster
@@ -50,7 +50,7 @@ jobs:
       - name: Chart | Push (kubevirt-standalone-cp-gpu)
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
-          name: kubevirt-standalone-cp-gpu
+          name: chart_version_kubevirt-standalone-cp-gpu
           repository: ${{ github.repository }}
           tag: ${{ steps.chart_version.outputs.version }}
           path: ./templates/cluster/kubevirt-standalone-cp-gpu
