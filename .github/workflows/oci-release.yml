@@ -8,7 +8,6 @@ on:
       - 'values.yaml'
       - 'values.schema.json'
       - 'templates/**'
-      - 'workflows/**'
   workflow_dispatch:
 jobs:
   release:
