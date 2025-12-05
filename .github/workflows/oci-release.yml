@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Get chart version (custom-remote-cluster)
-        id: chart_version
+        id: chart_version_custom-remote-cluster
         run: |
           VERSION=$(grep '^version:' ./templates/cluster/custom-remote-cluster/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -41,7 +41,7 @@ jobs:
           update_dependencies: 'true'
 
       - name: Get chart version (kubevirt-standalone-cp-gpu)
-        id: chart_version
+        id: chart_version_kubevirt-standalone-cp-gpu
         run: |
           VERSION=$(grep '^version:' ./templates/cluster/kubevirt-standalone-cp-gpu/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
