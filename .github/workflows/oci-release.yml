@@ -37,7 +37,7 @@ jobs:
         id: find_charts
         shell: bash
         run: |
-          CHARTS=$(find ./templates -type f -name "Chart.yaml" | sed -e 's|/Chart.yaml||g')
+          CHARTS=$(find ./charts -type f -name "Chart.yaml" | sed -e 's|/Chart.yaml||g')
           echo "Found charts in:"
           echo "$CHARTS"
           echo "chart_dirs=$(echo $CHARTS | tr ' ' ',')" >> $GITHUB_OUTPUT
