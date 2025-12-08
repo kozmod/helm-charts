@@ -51,6 +51,7 @@ jobs:
 
           echo "First iteration: Publishing charts (some might fail due to unresolved dependencies)"
           for CHART_DIR in "${CHART_DIRS[@]}"; do
+            echo "------------------------------"
             echo "Processing chart in $CHART_DIR"
 
             CHART_NAME=$(yq eval '.name' "$CHART_DIR/Chart.yaml")
