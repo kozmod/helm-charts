@@ -8,7 +8,7 @@ spec:
     metadata:
       namespace: {{ .Values.cluster.namespace | default .Release.Namespace | trunc 63 }}
     spec:
-      type: {{ .Values.cluster.type | default LoadBalancer | trunc 63 }}
+      type: {{ .Values.cluster.type | default "LoadBalancer" | trunc 63 }}
       {{/*      type: LoadBalancer*/}}
 {{- if .Values.cluster.kubeConfigSecretRef }}
   infraClusterSecretRef:
