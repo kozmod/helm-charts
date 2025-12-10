@@ -62,7 +62,6 @@ spec:
                   autoattachGraphicsDevice: {{ .Values.worker.devices.autoattachGraphicsDevice }}
                   {{- end }}
                   interfaces:
-                  - name: default
                   {{- if eq .Values.worker.defaultNetworkInterface.type "bridge" }}
                   - name: default
                     bridge: {}
