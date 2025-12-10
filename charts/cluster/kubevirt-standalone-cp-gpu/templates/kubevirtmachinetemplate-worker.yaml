@@ -62,32 +62,29 @@ spec:
                   autoattachGraphicsDevice: {{ .Values.worker.devices.autoattachGraphicsDevice }}
                   {{- end }}
                   interfaces:
+                  - name: default
                   {{- if eq .Values.worker.defaultNetworkInterface.type "bridge" }}
-                    - name: default
-                      bridge: { }
+                  - name: default
+                    bridge: {}
                   {{- else if eq .Values.worker.defaultNetworkInterface.type "masquerade" }}
-                    - name: default
-                      masquerade: { }
+                  - name: default
+                    masquerade: {}
                     {{- if .Values.worker.defaultNetworkInterface.ports }}
-                      ports:
+                    ports:
                       {{- toYaml .Values.worker.defaultNetworkInterface.ports | nindent 22 }}
                     {{- end }}
                   {{- else if eq .Values.worker.defaultNetworkInterface.type "sriov" }}
                   {{- range .Values.worker.defaultNetworkInterface.sriov }}
-                    - name: {{ .name }}
-                      sriov: { }
+                  - name: {{ .name }}
+                    sriov: {}
                   {{- end }}
                   {{- else }}
-                    - name: default
-                      bridge: { }
+                  - name: default
+                    bridge: {}
                   {{- end }}
                   {{- range .Values.worker.additionalNetworkInterfaces }}
-                    - name: {{ .name }}
-                      bridge: { }
-                  {{- end }}
-                  {{- range .Values.worker.additionalSriovInterfaces }}
-                    - name: {{ .name }}
-                      sriov: { }
+                  - name: {{ .name }}
+                    bridge: {}
                   {{- end }}
                   disks:
                   {{- if .Values.worker.dataVolumes }}
@@ -160,15 +157,10 @@ spec:
               {{- end }}
               {{- else }}
                 - name: default
-                  pod: { }
+                  pod: {}
               {{- end }}
               {{- with .Values.worker.additionalNetworkInterfaces }}
                 {{- toYaml . | nindent 16 }}
-              {{- end }}
-              {{- range .Values.worker.additionalMultusNADs }}
-                - name: {{ .name }}
-                  multus:
-                    networkName: {{ .namespacedAddress }}
               {{- end }}
               volumes:
                 {{- if .Values.worker.dataVolumes }}
@@ -199,23 +191,23 @@ spec:
           {{- if .Values.worker.dataVolumes }}
           dataVolumeTemplates:
           {{- range .Values.worker.dataVolumes }}
-            - apiVersion: cdi.kubevirt.io/v1beta1
-              kind: DataVolume
-              metadata:
-                name: {{ .name }}
-                annotations:
-                  # https://github.com/kubevirt/containerized-data-importer/blob/main/doc/waitforfirstconsumer-storage-handling.md
-                  cdi.kubevirt.io/storage.bind.immediate.requested: ""
-              spec:
-                pvc:
-                  accessModes:
-                    - {{ .accessModes }}
-                  resources:
-                    requests:
-                      storage: {{ .storage }}
-                  volumeMode: {{ .volumeMode }}
-                  storageClassName: {{ .storageClassName }}
-                source:
+          - apiVersion: cdi.kubevirt.io/v1beta1
+            kind: DataVolume
+            metadata:
+              name: {{ .name }}
+              annotations:
+                # https://github.com/kubevirt/containerized-data-importer/blob/main/doc/waitforfirstconsumer-storage-handling.md
+                cdi.kubevirt.io/storage.bind.immediate.requested: ""
+            spec:
+              pvc:
+                accessModes:
+                - {{ .accessModes }}
+                resources:
+                  requests:
+                    storage: {{ .storage }}
+                volumeMode: {{ .volumeMode }}
+                storageClassName: {{ .storageClassName }}
+              source:
                 {{- toYaml .source | nindent 16 }}
           {{- end }}
           {{- end }}
