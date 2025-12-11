@@ -1,3 +1,4 @@
+{{- $vmName := include "kubevirtmachinetemplate.worker.name" . }}
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
 kind: KubevirtMachineTemplate
 metadata:
@@ -94,7 +95,7 @@ spec:
                   {{- range .Values.worker.dataVolumes }}
                     - disk:
                         bus: virtio
-                      name: {{ .name }}
+                      name: {{ $vmName }}-dv-{{ .name }}
                   {{- end }}
                   {{- else }}
                     - disk:
@@ -173,9 +174,9 @@ spec:
               volumes:
                 {{- if .Values.worker.dataVolumes }}
                 {{- range .Values.worker.dataVolumes }}
-                - name: {{ .name }}
+                - name: {{ $vmName }}-dv-{{ .name }}
                   dataVolume:
-                    name: {{ .name }}
+                    name: {{ $vmName }}-dv-{{ .name }}
                 {{- end }}
                 {{- else }}
                 - name: containerdisk
@@ -202,7 +203,7 @@ spec:
           - apiVersion: cdi.kubevirt.io/v1beta1
             kind: DataVolume
             metadata:
-              name: {{ .name }}
+              name: {{ $vmName }}-dv-{{ .name }}
               annotations:
                 # https://github.com/kubevirt/containerized-data-importer/blob/main/doc/waitforfirstconsumer-storage-handling.md
                 cdi.kubevirt.io/storage.bind.immediate.requested: ""
