@@ -71,8 +71,29 @@ spec:
                   autoattachGraphicsDevice: {{ .Values.worker.devices.autoattachGraphicsDevice }}
                   {{- end }}
                   interfaces:
+                  {{- if eq .Values.worker.defaultNetworkInterface.type "bridge" }}
+                  - name: default
+                    bridge: {}
+                  {{- else if eq .Values.worker.defaultNetworkInterface.type "masquerade" }}
                   - name: default
                     masquerade: {}
+                    {{- if .Values.worker.defaultNetworkInterface.ports }}
+                    ports:
+                      {{- toYaml .Values.worker.defaultNetworkInterface.ports | nindent 22 }}
+                    {{- end }}
+                  {{- else if eq .Values.worker.defaultNetworkInterface.type "sriov" }}
+                  {{- range .Values.worker.defaultNetworkInterface.sriov }}
+                  - name: {{ .name }}
+                    sriov: {}
+                  {{- end }}
+                  {{- else }}
+                  - name: default
+                    bridge: {}
+                  {{- end }}
+                  {{- range .Values.worker.additionalNetworkInterfaces }}
+                  - name: {{ .name }}
+                    bridge: {}
+                  {{- end }}
                   {{- range .Values.worker.additionalSriovInterfaces }}
                   - name: {{ .name }}
                     sriov: {}
@@ -84,11 +105,18 @@ spec:
                         bus: virtio
                       name: {{ .name }}
                   {{- end }}
-                  {{- end }}
+                  {{- else }}
+                    - disk:
+                        bus: virtio
+                      name: containerdisk
+                      {{- if .Values.worker.diskCache }}
+                      cache: {{ .Values.worker.diskCache }}
+                      {{- end }}
                   {{- if .Values.worker.cloudInit.userData }}
                     - disk:
                         bus: virtio
                       name: cloudinitdisk
+                  {{- end }}
                   {{- end }}
                   {{- range .Values.worker.hostDisks }}
                     - disk:
@@ -133,8 +161,16 @@ spec:
                 {{- end }}
               evictionStrategy: External
               networks:
+              {{- if eq .Values.worker.defaultNetworkInterface.type "sriov" }}
+              {{- range .Values.worker.defaultNetworkInterface.sriov }}
+                - name: {{ .name }}
+                  multus:
+                    networkName: {{ .namespacedAddress }}
+              {{- end }}
+              {{- else }}
                 - name: default
                   pod: {}
+              {{- end }}
               {{- with .Values.worker.additionalNetworkInterfaces }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
