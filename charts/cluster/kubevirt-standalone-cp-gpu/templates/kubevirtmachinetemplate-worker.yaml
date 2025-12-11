@@ -87,7 +87,7 @@ spec:
                   {{- end }}
                   {{- range .Values.worker.additionalSriovInterfaces }}
                   - name: {{ .name }}
-                    bridge: {}
+                    sriov: {}
                   {{- end }}
                   disks:
                   {{- if .Values.worker.dataVolumes }}
