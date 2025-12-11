@@ -85,10 +85,6 @@ spec:
                   - name: {{ .name }}
                     bridge: {}
                   {{- end }}
-                  {{- range .Values.worker.additionalSriovInterfaces }}
-                    - name: {{ .name }}
-                      sriov: { }
-                  {{- end }}
                   disks:
                   {{- if .Values.worker.dataVolumes }}
                   {{- range .Values.worker.dataVolumes }}
@@ -164,11 +160,6 @@ spec:
               {{- end }}
               {{- with .Values.worker.additionalNetworkInterfaces }}
                 {{- toYaml . | nindent 16 }}
-              {{- end }}
-              {{- range .Values.worker.additionalMultusNADs }}
-                - name: {{ .name }}
-                  multus:
-                    networkName: {{ .namespacedAddress }}
               {{- end }}
               volumes:
                 {{- if .Values.worker.dataVolumes }}
