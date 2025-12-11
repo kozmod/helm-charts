@@ -28,15 +28,13 @@ spec:
               nodeSelector:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
-              {{- if .Values.worker.ssh.key }}
               accessCredentials:
                 - sshPublicKey:
                     source:
                       secret:
-                        secretName: {{ .Values.worker.ssh.key }}
+                        secretName: my-pub-key
                     propagationMethod:
                       noCloud: { }
-              {{- end }}
               # https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api-provider-kubevirt/infrastructure.cluster.x-k8s.io/KubevirtMachineTemplate/v1alpha1@v0.1.9#spec-template-spec-virtualMachineTemplate-spec-template
               domain:
                 cpu:
