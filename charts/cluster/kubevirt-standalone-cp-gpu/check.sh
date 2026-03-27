@@ -8,13 +8,6 @@ function sriov() {
     --set 'worker.cpus=2'
     --set 'worker.memory=4Gi'
     --set controlPlane.cpus=2
-    --set 'worker.dataVolumes[0].name=test-dv'
-    --set 'worker.dataVolumes[0].accessModes=ReadWriteOnce'
-    --set 'worker.dataVolumes[0].storage=10Gi'
-    --set 'worker.dataVolumes[0].volumeMode=Filesystem'
-    --set 'worker.dataVolumes[0].storageClassName=local-path'
-    --set 'worker.dataVolumes[0].source.http.url=https://example.com/image.img'
-    --set 'worker.dataVolumes[0].bindImmediate=true'
   )
 
   # data volumes
@@ -25,7 +18,7 @@ function sriov() {
     --set 'worker.dataVolumes[0].volumeMode=Filesystem'
     --set 'worker.dataVolumes[0].storageClassName=local-path'
     --set 'worker.dataVolumes[0].source.http.url=https://example.com/image.img'
-    --set 'worker.dataVolumes[0].bindImmediate=true'
+#    --set 'worker.dataVolumes[0].bindImmediate=true'
   )
 
   # SRIOV params
@@ -37,7 +30,7 @@ function sriov() {
   )
 
 
-  helm template test-local ./ "${base_args[@]}" "${data_volumes_args[@]}" "${sriov_args[@]}" > test1-worker-without-sriov.yaml
+  helm template test-local ./ "${base_args[@]}" "${data_volumes_args[@]}" "${sriov_args[@]}" > test-local.yaml
 }
 
 "$@"
