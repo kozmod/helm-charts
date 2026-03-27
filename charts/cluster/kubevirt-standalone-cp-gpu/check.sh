@@ -14,6 +14,18 @@ function sriov() {
     --set 'worker.dataVolumes[0].volumeMode=Filesystem'
     --set 'worker.dataVolumes[0].storageClassName=local-path'
     --set 'worker.dataVolumes[0].source.http.url=https://example.com/image.img'
+    --set 'worker.dataVolumes[0].bindImmediate=true'
+  )
+
+  # data volumes
+  local data_volumes_args=(
+    --set 'worker.dataVolumes[0].name=test-dv'
+    --set 'worker.dataVolumes[0].accessModes=ReadWriteOnce'
+    --set 'worker.dataVolumes[0].storage=10Gi'
+    --set 'worker.dataVolumes[0].volumeMode=Filesystem'
+    --set 'worker.dataVolumes[0].storageClassName=local-path'
+    --set 'worker.dataVolumes[0].source.http.url=https://example.com/image.img'
+    --set 'worker.dataVolumes[0].bindImmediate=true'
   )
 
   # SRIOV params
@@ -24,7 +36,8 @@ function sriov() {
     --set 'controlPlane.additionalSriovMultusNADs[0].namespacedAddress=default/sriov-network-pf0vf1'
   )
 
-  helm template test-local ./ "${base_args[@]}" "${sriov_args[@]}" > test1-worker-without-sriov.yaml
+
+  helm template test-local ./ "${base_args[@]}" "${data_volumes_args[@]}" "${sriov_args[@]}" > test1-worker-without-sriov.yaml
 }
 
 "$@"

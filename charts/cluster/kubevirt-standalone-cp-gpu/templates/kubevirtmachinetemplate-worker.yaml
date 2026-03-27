@@ -24,10 +24,6 @@ spec:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
             spec:
-              {{- with .Values.worker.topologySpreadConstraints }}
-              topologySpreadConstraints:
-                {{- toYaml . | nindent 8 }}
-              {{- end }}
               {{- with .Values.worker.nodeSelector }}
               nodeSelector:
                 {{- toYaml . | nindent 16 }}
@@ -209,9 +205,11 @@ spec:
             kind: DataVolume
             metadata:
               name: {{ .name }}
-                #  annotations:
+              {{- if .bindImmediate }}
+              annotations:
                 # https://github.com/kubevirt/containerized-data-importer/blob/main/doc/waitforfirstconsumer-storage-handling.md
-              #  cdi.kubevirt.io/storage.bind.immediate.requested: ""
+                cdi.kubevirt.io/storage.bind.immediate.requested: ""
+              {{- end }}
             spec:
               pvc:
                 accessModes:
