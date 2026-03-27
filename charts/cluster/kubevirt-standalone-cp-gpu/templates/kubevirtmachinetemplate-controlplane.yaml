@@ -85,7 +85,7 @@ spec:
                   - name: {{ .name }}
                     bridge: {}
                   {{- end }}
-                  {{- range .Values.controlPlane.additionalSriovInterfaces }}
+                  {{- range .Values.controlPlane.additionalSriovMultusNADs }}
                   - name: {{ .name }}
                     sriov: {}
                   {{- end }}
@@ -165,10 +165,12 @@ spec:
               {{- with .Values.controlPlane.additionalNetworkInterfaces }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
-              {{- range .Values.controlPlane.additionalMultusNADs }}
+              {{- if .Values.controlPlane.additionalSriovMultusNADs }}
+              {{- range .Values.controlPlane.additionalSriovMultusNADs }}
                 - name: {{ .name }}
                   multus:
                     networkName: {{ .namespacedAddress }}
+              {{- end }}
               {{- end }}
               volumes:
                 {{- if .Values.controlPlane.dataVolumes }}

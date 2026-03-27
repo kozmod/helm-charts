@@ -16,3 +16,5 @@ pat
 ssh.md
 
 .DS_Store/
+
+/tmp
