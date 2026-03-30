@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # check template's args applying
-function sriov() {
+function gen() {
   # Base params
   local base_args=(
     --namespace test-ns
@@ -26,11 +26,18 @@ function sriov() {
     --set 'worker.additionalSriovMultusNADs[0].name=sriov-net'
     --set 'worker.additionalSriovMultusNADs[0].namespacedAddress=default/sriov-network-pf0vf0'
     --set 'controlPlane.additionalSriovMultusNADs[0].name=sriov-net'
-    --set 'controlPlane.additionalSriovMultusNADs[0].namespacedAddress=default/sriov-network-pf0vf1'
+#    --set 'controlPlane.additionalSriovMultusNADs[0].namespacedAddress=default/sriov-network-pf0vf1'
+    --set 'cluster.multusSriovNADs[0].config={"type":"sriov","cniVersion":"1.0.0","name":"custom-sriov","logLevel":"info","logFile":"/var/log/custom-sriov.log"}'
+  )
+
+  # NAD
+  local nad_args=(
+    --set 'cluster.multusSriovNADs[0].name=sriov-network-pf0vf0'
+    --set 'cluster.multusSriovNADs[0].resourceName=xxxx/pf0_vf0'
   )
 
 
-  helm template test-local ./ "${base_args[@]}" "${data_volumes_args[@]}" "${sriov_args[@]}" > test-local.yaml
+  helm template test-local ./ "${base_args[@]}" "${data_volumes_args[@]}" "${sriov_args[@]}" "${nad_args[@]}" > test-local.yaml
 }
 
 "$@"

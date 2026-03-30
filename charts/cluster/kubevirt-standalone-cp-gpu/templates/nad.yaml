@@ -1,0 +1,19 @@
+{{- if .Values.cluster.multusSriovNADs }}
+{{- range .Values.cluster.multusSriovNADs }}
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.cluster.namespace | default $.Release.Namespace | trunc 63 }}
+  annotations:
+    k8s.v1.cni.cncf.io/resourceName: {{ .resourceName }}
+spec:
+  config: {{ .config | default (printf `{
+  "type": "sriov",
+  "cniVersion": "1.0.0",
+  "name": "%s",
+  "logLevel": "debug",
+  "logFile": "/var/log/sriov-cni-%s.log"
+}` .name .name) | quote }}
+{{- end }}
+{{- end }}
